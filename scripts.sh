@@ -1,4 +1,4 @@
-#Installing dependencies
+#Installing dependencies (optional)
  curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o docker.gpg
 
 gpg --dearmor -o docker-archive-keyring.gpg docker.gpg
@@ -18,25 +18,14 @@ o dpkg -i packages-microsoft-prod.deb
  sudo dpkg -i packages-microsoft-prod.deb
 
  #install runtime
-  sudo apt install -y aspnetcore-runtime-7.0
+  sudo apt install -y aspnetcore-runtime-8.0
 
-  wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
-   chmod +x ./dotnet-install.sh
-    ./dotnet-install.sh --version latest --runtime aspnetcore
-
-#check for installation
-     echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
-       source ~/.bashrc
-
-        dotnet --info
+ #check for installation
+  dotnet --info
 
 #installing SDK
  sudo apt install -y dotnet-sdk-8.0
-  wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
-
-  chmod +x dotnet-install.sh
-  ./dotnet-install.sh --version latest
-
+  
 #Check installation
  dotnet --list-sdks
 
@@ -69,16 +58,22 @@ cd out
 
 dotnet BookPortel.dll
 
+
+
+#Check working directory
+pwd
+
 #Create service file
 sudo nano /etc/systemd/system/bookportel.service
+
 #paste this there
 [Unit]
 Description=BookPortel ASP.NET Core App
 After=network.target
 
 [Service]
-WorkingDirectory=/home/adetola/SGbookportal/out
-ExecStart=/home/adetola/.dotnet/dotnet BookPortel.dll
+WorkingDirectory=/home/adetola/SGbookportal/out #Replace with working directory
+ExecStart=/usr/bin/dotnet //home/adetola/SGbookportal/out/BookPortel.dll
 Restart=always
 RestartSec=10
 SyslogIdentifier=bookportel
